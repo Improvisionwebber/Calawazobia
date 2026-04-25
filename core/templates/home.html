@@ -1,0 +1,628 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Calawazobia Nigeria Limited</title>
+<link rel="icon" type="image/png" href="{% static 'images/owner#.jpeg' %}">
+<link rel="shortcut icon" href="{% static 'images/owner#.jpeg' %}">
+<meta name="description" content="Calawazobia Nigeria Limited — a diversified Nigerian conglomerate delivering excellence in bakery, hospitality, agriculture, and lifestyle across Uyo and Abuja." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+  /* ============ RESET & TOKENS ============ */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --green-deep: #0a2418;
+    --green-mid: #539576;
+    --green-soft: #1a5038;
+    --gold: #c9a961;
+    --gold-bright: #e6c378;
+    --gold-dark: #8a7234;
+    --ivory: #f6f1e6;
+    --cream: #fbf8f1;
+    --charcoal: #0d0d0d;
+    --white: #ffffff;
+    --muted: rgba(246, 241, 230, 0.7);
+    --border-gold: rgba(201, 169, 97, 0.25);
+    --shadow-lux: 0 30px 80px -20px rgba(0,0,0,0.55);
+    --grad-gold: linear-gradient(135deg, #e6c378 0%, #c9a961 45%, #8a7234 100%);
+    --grad-dark: linear-gradient(180deg, rgba(10,36,24,0.55) 0%, rgba(10,36,24,0.95) 100%);
+    --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    background: var(--green-deep);
+    color: var(--ivory);
+    line-height: 1.6;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3, h4 { font-family: 'Playfair Display', serif; font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; }
+  a { color: inherit; text-decoration: none; }
+  img { max-width: 100%; display: block; }
+  .container { width: min(1280px, 92%); margin: 0 auto; }
+  .gold-text { background: var(--grad-gold); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-family: 'Inter'; font-size: 0.75rem; font-weight: 600;
+    letter-spacing: 0.3em; text-transform: uppercase;
+    color: var(--gold);
+  }
+  .eyebrow::before { content: ""; width: 36px; height: 1px; background: var(--gold); }
+
+  /* ============ BUTTONS ============ */
+  .btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 16px 32px; border-radius: 999px;
+    font-weight: 600; font-size: 0.95rem; letter-spacing: 0.02em;
+    cursor: pointer; border: none; transition: all 0.4s var(--ease);
+    position: relative; overflow: hidden;
+  }
+  .btn-gold { background: var(--grad-gold); color: var(--green-deep); box-shadow: 0 15px 40px -10px rgba(201,169,97,0.5); }
+  .btn-gold:hover { transform: translateY(-3px); box-shadow: 0 25px 50px -10px rgba(201,169,97,0.7); }
+  .btn-ghost { background: transparent; color: var(--ivory); border: 1px solid var(--border-gold); }
+  .btn-ghost:hover { background: rgba(201,169,97,0.1); border-color: var(--gold); }
+
+  /* ============ NAVBAR ============ */
+  .nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    padding: 22px 0; transition: all 0.4s var(--ease);
+  }
+  .nav.scrolled {
+    background: rgba(10, 36, 24, 0.85);
+    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border-gold);
+    padding: 14px 0;
+  }
+  .nav-wrap { display: flex; align-items: center; justify-content: space-between; }
+  .logo { display: flex; align-items: center; gap: 12px; }
+  .logo-mark {
+    width: 44px; height: 44px; border-radius: 50%;
+    background: var(--grad-gold); color: var(--green-deep);
+    display: grid; place-items: center; font-family: 'Playfair Display'; font-weight: 800; font-size: 1.2rem;
+    box-shadow: 0 8px 24px -6px rgba(201,169,97,0.5);
+  }
+  .logo-text { font-family: 'Playfair Display'; font-weight: 700; font-size: 1.15rem; letter-spacing: 0.01em; }
+  .logo-text span { display: block; font-family: 'Inter'; font-size: 0.65rem; letter-spacing: 0.35em; color: var(--gold); text-transform: uppercase; margin-top: 2px; }
+  .nav-links { display: flex; gap: 36px; list-style: none; }
+  .nav-links a { font-size: 0.9rem; font-weight: 500; opacity: 0.85; transition: all 0.3s; position: relative; }
+  .nav-links a::after { content: ""; position: absolute; bottom: -6px; left: 0; width: 0; height: 1px; background: var(--gold); transition: width 0.4s var(--ease); }
+  .nav-links a:hover { opacity: 1; color: var(--gold); }
+  .nav-links a:hover::after { width: 100%; }
+  .nav-cta { font-size: 0.85rem; padding: 12px 24px; }
+  .burger { display: none; background: none; border: none; color: var(--ivory); font-size: 1.4rem; cursor: pointer; }
+
+  /* ============ HERO ============ */
+  .hero {
+    position: relative; min-height: 100vh;
+    display: flex; align-items: center;
+    overflow: hidden; padding: 140px 0 80px;
+  }
+  .hero-bg {
+    position: absolute; inset: 0; z-index: 0;
+    display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr;
+  }
+  .hero-bg .tile {
+    background-size: cover; background-position: center;
+    filter: brightness(0.45) saturate(1.1);
+    animation: kenburns 18s ease-in-out infinite alternate;
+  }
+  .hero-bg .tile:nth-child(1) { background-image: url('{% static "images/chinchin.jpeg" %}'); animation-delay: 0s; }
+  .hero-bg .tile:nth-child(2) { background-image: url('{% static "images/restaurant.jpeg " %}'); animation-delay: 2s; }
+  .hero-bg .tile:nth-child(3) { background-image: url('https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?w=1200&q=80'); animation-delay: 4s; }
+  .hero-bg .tile:nth-child(4) { background-image: url('{% static "images/hotel.jpg" %}'); animation-delay: 6s; }
+  @keyframes kenburns { from { transform: scale(1); } to { transform: scale(1.15); } }
+  .hero-overlay {
+    position: absolute; inset: 0; z-index: 1;
+    background: linear-gradient(135deg, rgba(10,36,24,0.88) 0%, rgba(10,36,24,0.72) 50%, rgba(10,36,24,0.92) 100%);
+  }
+  .hero-overlay::after {
+    content: ""; position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 20% 50%, rgba(201,169,97,0.18), transparent 60%);
+  }
+  .hero-content { position: relative; z-index: 2; max-width: 900px; }
+  .hero h1 {
+    font-size: clamp(2.6rem, 6.5vw, 5.5rem);
+    margin: 28px 0 24px;
+    font-weight: 800;
+  }
+  .hero h1 .accent { font-style: italic; font-weight: 500; }
+  .hero p.lead {
+    font-size: clamp(1rem, 1.4vw, 1.2rem);
+    max-width: 620px; color: var(--muted);
+    margin-bottom: 42px;
+  }
+  .hero-ctas { display: flex; gap: 16px; flex-wrap: wrap; }
+  .hero-stats {
+    position: relative; z-index: 2;
+    display: flex; gap: 50px; margin-top: 80px;
+    padding-top: 32px; border-top: 1px solid var(--border-gold);
+    flex-wrap: wrap;
+  }
+  .stat .num { font-family: 'Playfair Display'; font-size: 2.5rem; font-weight: 700; color: var(--gold); }
+  .stat .lbl { font-size: 0.8rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-top: 4px; }
+  .scroll-ind {
+    position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
+    z-index: 2; font-size: 0.7rem; letter-spacing: 0.3em; color: var(--gold);
+    text-transform: uppercase; animation: bob 2s ease-in-out infinite;
+  }
+  @keyframes bob { 0%,100% { transform: translate(-50%, 0); } 50% { transform: translate(-50%, 8px); } }
+
+  /* ============ SECTIONS ============ */
+  section { padding: 120px 0; position: relative; }
+  .section-head { text-align: center; max-width: 760px; margin: 0 auto 70px; }
+  .section-head h2 {
+    font-size: clamp(2rem, 4.2vw, 3.6rem);
+    margin: 20px 0 18px;
+  }
+  .section-head p { color: var(--muted); font-size: 1.05rem; }
+
+  /* ============ ABOUT ============ */
+  .about { background: var(--green-deep); }
+  .about-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: 80px; align-items: center; }
+  .about-img {
+    position: relative; border-radius: 20px; overflow: hidden;
+    box-shadow: var(--shadow-lux);
+    aspect-ratio: 4/5;
+  }
+  .about-img img { width: 100%; height: 100%; object-fit: cover; }
+  .about-img::after {
+    content: ""; position: absolute; inset: 0;
+    background: linear-gradient(180deg, transparent 50%, rgba(10,36,24,0.7));
+  }
+  .about-img .badge {
+    position: absolute; bottom: 24px; left: 24px; right: 24px;
+    padding: 18px 22px; border-radius: 14px;
+    background: rgba(10,36,24,0.7); backdrop-filter: blur(12px);
+    border: 1px solid var(--border-gold);
+    display: flex; align-items: center; gap: 14px;
+  }
+  .about-img .badge i { color: var(--gold); font-size: 1.4rem; }
+  .about-img .badge strong { display: block; font-size: 0.95rem; }
+  .about-img .badge span { font-size: 0.8rem; color: var(--muted); }
+  .about-text h2 { font-size: clamp(2rem, 3.6vw, 3rem); margin: 20px 0 24px; }
+  .about-text p { color: var(--muted); margin-bottom: 18px; }
+  .values { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; margin-top: 32px; }
+  .value {
+    padding: 20px; border-radius: 12px;
+    background: rgba(255,255,255,0.03); border: 1px solid var(--border-gold);
+  }
+  .value i { color: var(--gold); font-size: 1.2rem; margin-bottom: 10px; }
+  .value strong { display: block; font-size: 0.95rem; margin-bottom: 4px; }
+  .value p { font-size: 0.85rem; color: var(--muted); margin: 0; }
+
+  /* ============ BUSINESSES ============ */
+  .biz { background: linear-gradient(180deg, var(--green-deep), #07190f); }
+  .biz-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr);
+    gap: 28px;
+  }
+  .biz-card {
+    position: relative; border-radius: 24px; overflow: hidden;
+    aspect-ratio: 4/5; cursor: pointer;
+    transition: transform 0.6s var(--ease);
+    box-shadow: 0 20px 50px -20px rgba(0,0,0,0.6);
+  }
+  .biz-card .bg {
+    position: absolute; inset: 0;
+    background-size: cover; background-position: center;
+    transition: transform 1.2s var(--ease);
+  }
+  .biz-card:hover .bg { transform: scale(1.1); }
+  .biz-card::after {
+    content: ""; position: absolute; inset: 0;
+    background: linear-gradient(180deg, transparent 30%, rgba(10,36,24,0.95) 90%);
+  }
+  .biz-card .body {
+    position: absolute; bottom: 0; left: 0; right: 0; z-index: 2;
+    padding: 36px;
+  }
+  .biz-card .tag {
+    display: inline-block; padding: 6px 14px; border-radius: 999px;
+    background: var(--grad-gold); color: var(--green-deep);
+    font-size: 0.7rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .biz-card h3 { font-size: 1.8rem; margin-bottom: 10px; }
+  .biz-card p { color: var(--muted); font-size: 0.95rem; margin-bottom: 20px; max-width: 90%; }
+  .biz-card .explore {
+    display: inline-flex; align-items: center; gap: 10px;
+    color: var(--gold); font-weight: 600; font-size: 0.9rem;
+    letter-spacing: 0.05em; transition: gap 0.3s;
+  }
+  .biz-card:hover .explore { gap: 18px; }
+
+  /* ============ WHY ============ */
+  .why { background: var(--green-deep); }
+  .why-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 20px; }
+  .why-card {
+    padding: 36px 24px; border-radius: 18px;
+    background: rgba(255,255,255,0.025);
+    border: 1px solid var(--border-gold);
+    text-align: center;
+    transition: all 0.5s var(--ease);
+  }
+  .why-card:hover {
+    transform: translateY(-8px);
+    background: rgba(201,169,97,0.08);
+    border-color: var(--gold);
+  }
+  .why-card .ico {
+    width: 60px; height: 60px; margin: 0 auto 20px;
+    border-radius: 50%; display: grid; place-items: center;
+    background: var(--grad-gold); color: var(--green-deep);
+    font-size: 1.4rem;
+  }
+  .why-card h4 { font-family: 'Inter'; font-size: 1rem; margin-bottom: 10px; font-weight: 700; }
+  .why-card p { font-size: 0.85rem; color: var(--muted); }
+
+  /* ============ LOCATIONS ============ */
+  .loc { background: linear-gradient(180deg, #07190f, var(--green-deep)); }
+  .loc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+  .loc-card {
+    position: relative; border-radius: 22px; overflow: hidden;
+    padding: 50px 40px; min-height: 340px;
+    background-size: cover; background-position: center;
+    display: flex; flex-direction: column; justify-content: flex-end;
+  }
+  .loc-card::before {
+    content: ""; position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(10,36,24,0.92), rgba(10,36,24,0.5));
+  }
+  .loc-card > * { position: relative; z-index: 1; }
+  .loc-card .pin { color: var(--gold); font-size: 1.8rem; margin-bottom: 16px; }
+  .loc-card h3 { font-size: 2.2rem; margin-bottom: 8px; }
+  .loc-card .city-tag { color: var(--gold); font-size: 0.85rem; letter-spacing: 0.25em; text-transform: uppercase; margin-bottom: 20px; }
+  .loc-card ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .loc-card ul li { display: flex; align-items: center; gap: 10px; color: var(--muted); font-size: 0.95rem; }
+  .loc-card ul li i { color: var(--gold); font-size: 0.8rem; }
+  .loc-uyo { background-image: url('{% static "images/bread.jpeg" %}'); }
+  .loc-abuja { background-image: url('{% static "images/icecream.jpeg" %}'); }
+
+  /* ============ CTA ============ */
+  .cta-big {
+    background: var(--green-deep) url('{% static "images/waiter.jpeg" %}') center/cover;
+    background-blend-mode: overlay;
+    position: relative;
+  }
+  .cta-big::before {
+    content: ""; position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(10,36,24,0.95), rgba(7,25,15,0.85));
+  }
+  .cta-big > * { position: relative; }
+  .cta-wrap { text-align: center; max-width: 860px; margin: 0 auto; }
+  .cta-wrap h2 { font-size: clamp(2.2rem, 5vw, 4rem); margin: 24px 0 28px; }
+  .cta-wrap p { color: var(--muted); font-size: 1.1rem; margin-bottom: 44px; }
+  .cta-btns { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+  .cta-btns .btn { padding: 14px 26px; font-size: 0.9rem; }
+
+  /* ============ FOOTER ============ */
+  footer { background: #050f09; padding: 90px 0 30px; }
+  .foot-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 60px; margin-bottom: 60px; }
+  .foot-brand p { color: var(--muted); font-size: 0.95rem; margin: 20px 0; max-width: 380px; }
+  .socials { display: flex; gap: 12px; }
+  .socials a {
+    width: 42px; height: 42px; border-radius: 50%;
+    display: grid; place-items: center;
+    border: 1px solid var(--border-gold); color: var(--gold);
+    transition: all 0.3s;
+  }
+  .socials a:hover { background: var(--gold); color: var(--green-deep); transform: translateY(-3px); }
+  .foot-col h5 { font-family: 'Inter'; font-size: 0.8rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); margin-bottom: 22px; }
+  .foot-col ul { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+  .foot-col ul a { color: var(--muted); font-size: 0.92rem; transition: color 0.3s; }
+  .foot-col ul a:hover { color: var(--gold); }
+  .foot-col .contact-item { display: flex; gap: 12px; color: var(--muted); font-size: 0.9rem; margin-bottom: 14px; }
+  .foot-col .contact-item i { color: var(--gold); margin-top: 4px; }
+  .foot-bottom {
+    border-top: 1px solid var(--border-gold);
+    padding-top: 28px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 14px;
+    color: var(--muted); font-size: 0.85rem;
+  }
+
+  /* ============ REVEAL ANIMATIONS ============ */
+  .reveal { opacity: 0; transform: translateY(40px); transition: all 0.9s var(--ease); }
+  .reveal.in { opacity: 1; transform: translateY(0); }
+  .reveal.delay-1 { transition-delay: 0.12s; }
+  .reveal.delay-2 { transition-delay: 0.24s; }
+  .reveal.delay-3 { transition-delay: 0.36s; }
+  .reveal.delay-4 { transition-delay: 0.48s; }
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width: 960px) {
+    .nav-links { display: none; }
+    .nav-links.open {
+      display: flex; flex-direction: column; gap: 24px;
+      position: absolute; top: 100%; left: 0; right: 0;
+      padding: 32px; background: rgba(10,36,24,0.98);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border-gold);
+    }
+    .burger { display: block; }
+    .nav-cta { display: none; }
+    .about-grid, .loc-grid, .biz-grid { grid-template-columns: 1fr; gap: 40px; }
+    .why-grid { grid-template-columns: repeat(2, 1fr); }
+    .foot-grid { grid-template-columns: 1fr 1fr; gap: 40px; }
+    section { padding: 80px 0; }
+    .hero { padding: 120px 0 60px; }
+    .hero-stats { gap: 30px; margin-top: 50px; }
+    .stat .num { font-size: 1.8rem; }
+  }
+  @media (max-width: 560px) {
+    .why-grid, .foot-grid { grid-template-columns: 1fr; }
+    .values { grid-template-columns: 1fr; }
+    .hero-ctas .btn, .cta-btns .btn { width: 100%; justify-content: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ========== NAV ========== -->
+<nav class="nav" id="nav">
+  <div class="container nav-wrap">
+    <a href="#" class="logo">
+      <div class="logo-mark">C</div>
+      <div class="logo-text">Calawazobia<span>Nigeria Limited</span></div>
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#about">About</a></li>
+      <li><a href="#businesses">Businesses</a></li>
+      <li><a href="#why">Why Us</a></li>
+      <li><a href="#locations">Locations</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a href="#contact" class="btn btn-gold nav-cta">Get in Touch</a>
+    <button class="burger" id="burger"><i class="fa-solid fa-bars"></i></button>
+  </div>
+</nav>
+
+<!-- ========== HERO ========== -->
+<header class="hero">
+  <div class="hero-bg">
+    <div class="tile"></div><div class="tile"></div>
+    <div class="tile"></div><div class="tile"></div>
+  </div>
+  <div class="hero-overlay"></div>
+  <div class="container hero-content">
+    <span class="eyebrow reveal">A Nigerian Conglomerate</span>
+    <h1 class="reveal delay-1">One Brand. <span class="accent gold-text">Four Powerful</span><br/>Experiences.</h1>
+    <p class="lead reveal delay-2">From food to hospitality, agriculture to lifestyle — Calawazobia delivers excellence across Nigeria with uncompromising quality, trust, and community impact.</p>
+    <div class="hero-ctas reveal delay-3">
+      <a href="#businesses" class="btn btn-gold">Explore Businesses <i class="fa-solid fa-arrow-right"></i></a>
+      <a href="#contact" class="btn btn-ghost">Contact Us</a>
+    </div>
+    <div class="hero-stats reveal delay-4">
+      <div class="stat"><div class="num">04</div><div class="lbl">Subsidiaries</div></div>
+      <div class="stat"><div class="num">02</div><div class="lbl">Cities</div></div>
+      <div class="stat"><div class="num">100%</div><div class="lbl">NAFDAC / CAC</div></div>
+      <div class="stat"><div class="num">1000+</div><div class="lbl">Happy Customers</div></div>
+    </div>
+  </div>
+  <div class="scroll-ind">Scroll ↓</div>
+</header>
+
+<!-- ========== ABOUT ========== -->
+<section class="about" id="about">
+  <div class="container about-grid">
+    <div class="about-img reveal">
+    <img src="{% static 'images/story.jpeg' %}" alt="Calawazobia founder or team member in professional setting showcasing the brand's commitment to excellence and quality across their four business operations in Nigeria"/>
+      <div class="badge">
+        <i class="fa-solid fa-medal"></i>
+        <div><strong>Certified Excellence</strong><span>NAFDAC Approved · CAC Registered</span></div>
+      </div>
+    </div>
+    <div class="about-text reveal delay-1">
+      <span class="eyebrow">Our Story</span>
+      <h2>Building a Nigerian <span class="gold-text">Business Empire</span>.</h2>
+      <p>Calawazobia Nigeria Limited is a fast-growing diversified group operating across four vital sectors. Born in Uyo and expanding into Abuja, we exist to deliver world-class products and experiences that uplift communities and redefine what Nigerian enterprise can be.</p>
+      <p>From the warm aroma of fresh bread in Uyo, to the elegance of our Abuja lounge, to the productivity of our farm and the comfort of our hotel — we are stitched together by one promise: <strong style="color:var(--gold)">excellence in everything we do.</strong></p>
+      <div class="values">
+        <div class="value"><i class="fa-solid fa-shield-halved"></i><strong>Quality First</strong><p>Every product meets rigorous standards.</p></div>
+        <div class="value"><i class="fa-solid fa-handshake"></i><strong>Community Trust</strong><p>Rooted in the people we serve daily.</p></div>
+        <div class="value"><i class="fa-solid fa-seedling"></i><strong>Local Impact</strong><p>Empowering Nigerian livelihoods.</p></div>
+        <div class="value"><i class="fa-solid fa-star"></i><strong>Relentless Innovation</strong><p>Always raising the bar higher.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== BUSINESSES ========== -->
+<section class="biz" id="businesses">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Our Businesses</span>
+      <h2>Four Pillars. <span class="gold-text">One Standard.</span></h2>
+      <p>Each subsidiary is a masterclass in its industry — engineered for quality, crafted for experience.</p>
+    </div>
+    <div class="biz-grid">
+      <article class="biz-card reveal">
+        <div class="bg" style="background-image:url('{% static "images/bakery.jpeg" %}');"></div>
+        <div class="body">
+          <span class="tag">Uyo · Bakery</span>
+          <h3>Calawazobia Bakery & Confectionaries</h3>
+          <p>Fresh, hygienic and affordable bread, pastries, chin chin and sandwich loaves — trusted across Uyo households.</p>
+          <a href="{% url 'bakery' %}" class="explore">Explore Bakery <i class="fa-solid fa-arrow-right-long"></i></a>
+        </div>
+      </article>
+      <article class="biz-card reveal delay-1">
+        <div class="bg" style="background-image:url('{% static "images/restaurant.jpeg" %}');"></div>
+        <div class="body">
+          <span class="tag">Abuja · Dining</span>
+          <h3>Calawazobia Restaurant & Lounge</h3>
+          <p>Modern Nigerian dining with rice meals, ice cream, snacks, popcorn and drinks in a stylish lounge on Keffi Expressway.</p>
+          <a href="{% url 'restaurant' %}" class="explore">Dine With Us <i class="fa-solid fa-arrow-right-long"></i></a>
+        </div>
+      </article>
+      <article class="biz-card reveal delay-2">
+        <div class="bg" style="background-image:url('https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?w=1200&q=80');"></div>
+        <div class="body">
+          <span class="tag">Uyo · Agriculture</span>
+          <h3>Calawazobia Integrated Farm</h3>
+          <p>Modern poultry operation supplying fresh eggs and live chickens — clean, structured, and built for reliable distribution.</p>
+          <a href="{% url 'poultry' %}" class="explore">Order Produce <i class="fa-solid fa-arrow-right-long"></i></a>
+        </div>
+      </article>
+      <article class="biz-card reveal delay-3">
+        <div class="bg" style="background-image:url('{% static "images/hotel.jpg" %}');"></div>
+        <div class="body">
+          <span class="tag">Uyo · Hospitality</span>
+          <h3>Calawazobia Hotel</h3>
+          <p>A luxurious stay experience with seamless booking, refined comfort, and warm Nigerian hospitality at its finest.</p>
+          <a href="{% url 'hotel' %}" class="explore">Book a Room <i class="fa-solid fa-arrow-right-long"></i></a>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ========== WHY ========== -->
+<section class="why" id="why">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Why Calawazobia</span>
+      <h2>The <span class="gold-text">Calawazobia</span> Advantage.</h2>
+      <p>Five reasons thousands of Nigerians choose us — every single day.</p>
+    </div>
+    <div class="why-grid">
+      <div class="why-card reveal"><div class="ico"><i class="fa-solid fa-crown"></i></div><h4>Trusted Brand</h4><p>A household name with growing recognition nationwide.</p></div>
+      <div class="why-card reveal delay-1"><div class="ico"><i class="fa-solid fa-layer-group"></i></div><h4>Multi-Industry</h4><p>Excellence spanning four sectors under one vision.</p></div>
+      <div class="why-card reveal delay-2"><div class="ico"><i class="fa-solid fa-certificate"></i></div><h4>Quality Assured</h4><p>NAFDAC approved, CAC registered, built on standards.</p></div>
+      <div class="why-card reveal delay-3"><div class="ico"><i class="fa-solid fa-people-group"></i></div><h4>Community Impact</h4><p>Creating jobs and lifting local livelihoods.</p></div>
+      <div class="why-card reveal delay-4"><div class="ico"><i class="fa-solid fa-chart-line"></i></div><h4>Fast-Growing</h4><p>A rising African enterprise with serious momentum.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== LOCATIONS ========== -->
+<section class="loc" id="locations">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Where We Operate</span>
+      <h2>Rooted in <span class="gold-text">Nigeria</span>.</h2>
+      <p>From the palm-lined streets of Uyo to the heart of the capital — Calawazobia is where you are.</p>
+    </div>
+    <div class="loc-grid">
+      <div class="loc-card loc-uyo reveal">
+        <div class="pin"><i class="fa-solid fa-location-dot"></i></div>
+        <span class="city-tag">Akwa Ibom State</span>
+        <h3>Uyo</h3>
+        <p style="color:var(--muted); margin-bottom:22px;">174 Oron Road, Uyo — home to three of our businesses.</p>
+        <ul>
+          <li><i class="fa-solid fa-circle"></i> Calawazobia Bakery & Confectionaries</li>
+          <li><i class="fa-solid fa-circle"></i> Calawazobia Integrated Farm</li>
+          <li><i class="fa-solid fa-circle"></i> Calawazobia Hotel</li>
+        </ul>
+      </div>
+      <div class="loc-card loc-abuja reveal delay-1">
+        <div class="pin"><i class="fa-solid fa-location-dot"></i></div>
+        <span class="city-tag">Federal Capital Territory</span>
+        <h3>Abuja</h3>
+        <p style="color:var(--muted); margin-bottom:22px;">Mararaba, Keffi Expressway — our dining and lounge destination.</p>
+        <ul>
+          <li><i class="fa-solid fa-circle"></i> Calawazobia Restaurant & Lounge</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== CTA ========== -->
+<section class="cta-big">
+  <div class="container cta-wrap reveal">
+    <span class="eyebrow">Your Invitation</span>
+    <h2>Experience Excellence Across Every <span class="gold-text">Calawazobia</span> Business.</h2>
+    <p>One brand, four unforgettable ways to experience what we do best.</p>
+    <div class="cta-btns">
+      <a href="{% url 'bakery' %}" class="btn btn-gold"><i class="fa-solid fa-bread-slice"></i> Visit Bakery</a>
+      <a href="{% url 'restaurant' %}" class="btn btn-gold"><i class="fa-solid fa-utensils"></i> Dine at Restaurant</a>
+      <a href="{% url 'hotel' %}" class="btn btn-gold"><i class="fa-solid fa-bed"></i> Book Hotel</a>
+      <a href="{% url 'poultry' %}" class="btn btn-gold"><i class="fa-solid fa-egg"></i> Order Farm Products</a>
+    </div>
+  </div>
+</section>
+
+<!-- ========== FOOTER ========== -->
+<footer id="contact">
+  <div class="container">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a href="#" class="logo"><div class="logo-mark">C</div><div class="logo-text">Calawazobia<span>Nigeria Limited</span></div></a>
+        <p>A diversified Nigerian conglomerate delivering excellence in bakery, hospitality, agriculture and lifestyle across Uyo and Abuja.</p>
+        <div class="socials">
+          <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+          <a href="#"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
+          <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
+          <a href="#"><i class="fa-brands fa-whatsapp"></i></a>
+        </div>
+      </div>
+      <div class="foot-col">
+        <h5>Businesses</h5>
+        <ul>
+          <li><a href="#">Bakery & Confectionaries</a></li>
+          <li><a href="#">Restaurant & Lounge</a></li>
+          <li><a href="#">Integrated Farm</a></li>
+          <li><a href="#">Hotel & Booking</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h5>Company</h5>
+        <ul>
+          <li><a href="#about">About Us</a></li>
+          <li><a href="#why">Why Choose Us</a></li>
+          <li><a href="#locations">Locations</a></li>
+          <li><a href="#">Careers</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h5>Contact</h5>
+        <div class="contact-item"><i class="fa-solid fa-location-dot"></i><span>174 Oron Road, Uyo, Akwa Ibom</span></div>
+        <div class="contact-item"><i class="fa-solid fa-location-dot"></i><span>Mararaba, Keffi Expressway, Abuja</span></div>
+        <div class="contact-item"><i class="fa-solid fa-phone"></i><span>07064191176</span></div>
+        <div class="contact-item"><i class="fa-solid fa-envelope"></i><span>info@calawazobia.ng</span></div>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <div>© <span id="year"></span> Calawazobia Nigeria Limited. All rights reserved.</div>
+      <div>NAFDAC Approved · CAC Registered · Proudly Nigerian 🇳🇬</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Nav scroll state
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 30);
+  });
+
+  // Mobile menu
+  const burger = document.getElementById('burger');
+  const navLinks = document.getElementById('navLinks');
+  burger.addEventListener('click', () => {
+    navLinks.classList.toggle('open');
+    burger.innerHTML = navLinks.classList.contains('open')
+      ? '<i class="fa-solid fa-xmark"></i>'
+      : '<i class="fa-solid fa-bars"></i>';
+  });
+  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    navLinks.classList.remove('open');
+    burger.innerHTML = '<i class="fa-solid fa-bars"></i>';
+  }));
+
+  // Scroll reveal
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }});
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // Year
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>

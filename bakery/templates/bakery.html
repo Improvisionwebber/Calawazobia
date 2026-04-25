@@ -1,0 +1,775 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+<title>Calawazobia Bakery — Freshly Baked. Always Ready.</title>
+<link rel="icon" type="image/png" href="{% static 'images/owner#.jpeg' %}">
+<link rel="shortcut icon" href="{% static 'images/owner#.jpeg' %}">
+<meta name="description" content="Calawazobia Bakery, Uyo. Freshly baked bread, pastries and treats. Order on WhatsApp." />
+<meta name="theme-color" content="#0f3d2e" />
+<link rel="preconnect" href="https://images.unsplash.com" crossorigin>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#ffffff;
+    --ink:#0c1410;
+    --ink-soft:#46544c;
+    --green:#0f3d2e;
+    --green-2:#16563f;
+    --green-glow:rgba(15,61,46,0.18);
+    --cream:#f7f3ec;
+    --line:rgba(12,20,16,0.08);
+    --shadow-sm:0 6px 20px -10px rgba(12,20,16,0.18);
+    --shadow-md:0 20px 50px -25px rgba(12,20,16,0.35);
+    --shadow-glow:0 18px 45px -18px var(--green-glow);
+    --radius:22px;
+    --radius-lg:28px;
+    --ease:cubic-bezier(.22,.9,.32,1);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+  html,body{background:var(--bg);color:var(--ink);font-family:'Inter',system-ui,sans-serif;overflow-x:hidden;scroll-behavior:smooth}
+  body{font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased}
+  img{display:block;max-width:100%;user-select:none;-webkit-user-drag:none}
+  a{color:inherit;text-decoration:none}
+  button{font-family:inherit;border:none;cursor:pointer;background:none}
+  .serif{font-family:'Fraunces',serif;letter-spacing:-0.01em}
+
+  /* ───────── TOP BAR ───────── */
+  .topbar{
+    position:fixed;top:0;left:0;right:0;z-index:80;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:14px 18px;
+    background:rgba(255,255,255,0.72);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+    border-bottom:1px solid var(--line);
+    transform:translateY(-100%);transition:transform .5s var(--ease);
+  }
+  .topbar.show{transform:translateY(0)}
+  .brand{display:flex;align-items:center;gap:10px;font-family:'Fraunces',serif;font-weight:600;font-size:17px;color:var(--green)}
+  .brand-mark{
+    width:32px;height:32px;border-radius:10px;
+    background:linear-gradient(135deg,var(--green),var(--green-2));
+    display:grid;place-items:center;color:#fff;font-weight:800;font-size:14px;
+    box-shadow:var(--shadow-glow);
+  }
+  .topbar .pill{
+    font-size:12px;font-weight:600;color:#fff;background:var(--green);
+    padding:8px 14px;border-radius:99px;display:flex;align-items:center;gap:6px;
+  }
+  .live-dot{width:6px;height:6px;border-radius:50%;background:#7CFFB2;box-shadow:0 0 0 0 #7CFFB2;animation:pulse 1.6s infinite}
+
+  /* ───────── HERO ───────── */
+  .hero{
+    position:relative;height:100svh;min-height:620px;width:100%;overflow:hidden;
+    display:flex;align-items:flex-end;color:#fff;
+  }
+  .hero-img{position:absolute;inset:0;width:100%;height:120%;object-fit:cover;will-change:transform;transform:scale(1.08)}
+  .hero::before{
+    content:"";position:absolute;inset:0;
+    background:
+      linear-gradient(180deg,rgba(0,0,0,0.25) 0%,rgba(0,0,0,0) 30%,rgba(0,0,0,0) 50%,rgba(8,18,12,0.85) 100%);
+    z-index:1;
+  }
+  .hero-inner{position:relative;z-index:2;width:100%;padding:28px 22px 38px}
+  .hero-tag{
+    display:inline-flex;align-items:center;gap:8px;
+    font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
+    background:rgba(255,255,255,0.14);border:1px solid rgba(255,255,255,0.25);
+    padding:8px 14px;border-radius:99px;backdrop-filter:blur(8px);
+  }
+  .hero h1{
+    font-family:'Fraunces',serif;font-weight:600;
+    font-size:clamp(40px,11vw,68px);line-height:0.98;letter-spacing:-0.025em;
+    margin:18px 0 14px;
+  }
+  .hero h1 em{font-style:italic;color:#FFD7A8;font-weight:500}
+  .hero p{font-size:15px;color:rgba(255,255,255,0.78);max-width:520px;margin-bottom:26px}
+  .hero-ctas{display:flex;gap:10px;flex-wrap:wrap}
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:9px;
+    padding:15px 22px;border-radius:99px;font-weight:600;font-size:15px;
+    transition:transform .25s var(--ease),box-shadow .25s var(--ease);
+    will-change:transform;
+  }
+  .btn:active{transform:scale(0.96)}
+  .btn-wa{background:#25D366;color:#06320f;box-shadow:0 14px 30px -10px rgba(37,211,102,0.55)}
+  .btn-ghost{background:rgba(255,255,255,0.12);color:#fff;border:1px solid rgba(255,255,255,0.3);backdrop-filter:blur(8px)}
+  .btn-dark{background:var(--green);color:#fff;box-shadow:var(--shadow-glow)}
+  .btn-light{background:#fff;color:var(--green);border:1px solid var(--line);box-shadow:var(--shadow-sm)}
+  .scroll-cue{
+    position:absolute;left:50%;bottom:18px;transform:translateX(-50%);z-index:3;
+    color:rgba(255,255,255,0.7);font-size:11px;letter-spacing:.25em;text-transform:uppercase;
+    display:flex;flex-direction:column;align-items:center;gap:8px;
+  }
+  .scroll-cue .line{width:1px;height:36px;background:linear-gradient(#fff,transparent);animation:cue 2s infinite}
+
+  /* ───────── MARQUEE STRIP ───────── */
+  .marquee{
+    background:var(--green);color:#fff;overflow:hidden;padding:14px 0;
+    font-family:'Fraunces',serif;font-size:22px;letter-spacing:-0.01em;
+    border-bottom:1px solid rgba(255,255,255,0.06);
+  }
+  .marquee-track{display:flex;gap:36px;width:max-content;animation:scroll 30s linear infinite}
+  .marquee-track span{display:inline-flex;align-items:center;gap:36px;white-space:nowrap}
+  .marquee-track i{font-style:normal;color:#FFD7A8;font-size:18px}
+
+  /* ───────── SECTIONS ───────── */
+  section{padding:64px 0;position:relative}
+  .container{padding:0 22px;max-width:1200px;margin:0 auto}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:8px;
+    font-size:11px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--green);
+    background:rgba(15,61,46,0.07);padding:7px 12px;border-radius:99px;margin-bottom:14px;
+  }
+  .eyebrow::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--green)}
+  h2.section-title{
+    font-family:'Fraunces',serif;font-weight:600;
+    font-size:clamp(32px,7.5vw,52px);line-height:1.02;letter-spacing:-0.025em;color:var(--ink);
+    margin-bottom:14px;
+  }
+  h2.section-title em{font-style:italic;color:var(--green);font-weight:500}
+  .lede{color:var(--ink-soft);font-size:15px;max-width:560px;margin-bottom:28px}
+
+  /* ───────── REELS (HORIZONTAL SNAP) ───────── */
+  .reels{
+    display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;
+    padding:6px 22px 28px;scrollbar-width:none;
+  }
+  .reels::-webkit-scrollbar{display:none}
+  .reel{
+    position:relative;flex:0 0 78%;max-width:340px;aspect-ratio:9/14;
+    border-radius:var(--radius-lg);overflow:hidden;
+    scroll-snap-align:center;background:#000;
+    box-shadow:var(--shadow-md);
+    transition:transform .4s var(--ease);
+  }
+  .reel img{width:100%;height:100%;object-fit:cover;transition:transform 1.2s var(--ease)}
+  .reel:hover img,.reel:active img{transform:scale(1.06)}
+  .reel::after{
+    content:"";position:absolute;inset:0;
+    background:linear-gradient(180deg,rgba(0,0,0,0) 40%,rgba(0,0,0,0.85) 100%);
+  }
+  .reel-meta{position:absolute;left:16px;right:16px;bottom:16px;color:#fff;z-index:2}
+  .reel-meta .cap{font-family:'Fraunces',serif;font-size:22px;line-height:1.1;margin-bottom:10px}
+  .reel-meta .sub{font-size:12px;color:rgba(255,255,255,0.7);text-transform:uppercase;letter-spacing:.18em;margin-bottom:14px}
+  .reel-cta{
+    display:inline-flex;align-items:center;gap:8px;
+    background:#25D366;color:#06320f;font-weight:700;font-size:13px;
+    padding:10px 14px;border-radius:99px;
+    transition:transform .2s var(--ease);
+  }
+  .reel-cta:active{transform:scale(0.95)}
+  .reel .index{
+    position:absolute;top:14px;left:14px;z-index:2;
+    background:rgba(255,255,255,0.18);backdrop-filter:blur(10px);
+    color:#fff;font-size:11px;font-weight:600;letter-spacing:.15em;
+    padding:6px 10px;border-radius:99px;
+  }
+  .reel .heart{
+    position:absolute;top:14px;right:14px;z-index:2;
+    width:34px;height:34px;border-radius:50%;
+    background:rgba(255,255,255,0.18);backdrop-filter:blur(10px);
+    display:grid;place-items:center;color:#fff;
+  }
+
+  .swipe-hint{
+    display:flex;align-items:center;gap:8px;
+    color:var(--ink-soft);font-size:12px;letter-spacing:.18em;text-transform:uppercase;
+    padding:0 22px 6px;
+  }
+  .swipe-hint .arrow{display:inline-block;animation:swipe 1.6s infinite}
+
+  /* ───────── FRESH FROM OVEN — STACKED FULL BLEED ───────── */
+  .stack{display:flex;flex-direction:column;gap:8px}
+  .stack-card{
+    position:relative;height:78svh;min-height:520px;overflow:hidden;
+  }
+  .stack-card img{
+    position:absolute;inset:0;width:100%;height:115%;object-fit:cover;
+    will-change:transform;
+  }
+  .stack-card::after{
+    content:"";position:absolute;inset:0;
+    background:linear-gradient(180deg,rgba(0,0,0,0) 40%,rgba(0,0,0,0.7) 100%);
+  }
+  .stack-card .text{
+    position:absolute;left:22px;right:22px;bottom:28px;color:#fff;z-index:2;
+  }
+  .stack-card .text .num{
+    font-family:'Fraunces',serif;font-size:14px;color:#FFD7A8;letter-spacing:.1em;margin-bottom:8px;display:block;
+  }
+  .stack-card h3{
+    font-family:'Fraunces',serif;font-weight:600;font-size:clamp(28px,7vw,42px);line-height:1.05;letter-spacing:-0.02em;
+    margin-bottom:8px;
+  }
+  .stack-card p{font-size:14px;color:rgba(255,255,255,0.78);max-width:440px;margin-bottom:18px}
+
+  /* ───────── CTA STRIP ───────── */
+  .cta-strip{
+    background:var(--green);color:#fff;padding:48px 22px;
+    display:flex;flex-direction:column;align-items:center;text-align:center;gap:18px;
+    position:relative;overflow:hidden;
+  }
+  .cta-strip::before,.cta-strip::after{
+    content:"";position:absolute;width:280px;height:280px;border-radius:50%;
+    background:radial-gradient(circle,rgba(255,215,168,0.18),transparent 70%);
+    filter:blur(20px);
+  }
+  .cta-strip::before{top:-120px;left:-80px}
+  .cta-strip::after{bottom:-140px;right:-80px}
+  .cta-strip h3{
+    font-family:'Fraunces',serif;font-size:clamp(28px,7vw,40px);font-weight:600;line-height:1.05;letter-spacing:-0.02em;
+    position:relative;z-index:2;
+  }
+  .cta-strip h3 em{font-style:italic;color:#FFD7A8;font-weight:500}
+  .cta-strip p{color:rgba(255,255,255,0.7);font-size:14px;position:relative;z-index:2;max-width:380px}
+  .cta-strip .btn{position:relative;z-index:2}
+
+  /* ───────── PACKAGING — MASONRY-ISH IMAGE WALL ───────── */
+  .wall{
+    display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:0 8px;
+  }
+  .wall .tile{position:relative;overflow:hidden;border-radius:18px;background:#000}
+  .wall .tile img{width:100%;height:100%;object-fit:cover;transition:transform 1s var(--ease)}
+  .wall .tile:active img{transform:scale(1.06)}
+  .wall .tall{grid-row:span 2;aspect-ratio:3/5}
+  .wall .wide{grid-column:span 2;aspect-ratio:16/10}
+  .wall .sq{aspect-ratio:1/1}
+  .wall .tile .badge{
+    position:absolute;left:12px;bottom:12px;color:#fff;
+    background:rgba(0,0,0,0.45);backdrop-filter:blur(8px);
+    font-size:11px;letter-spacing:.15em;text-transform:uppercase;
+    padding:6px 10px;border-radius:99px;
+  }
+
+  /* ───────── BAKERY LIFE — PARALLAX CARDS ───────── */
+  .life{
+    background:var(--cream);
+  }
+  .life-grid{display:flex;flex-direction:column;gap:18px;margin-top:24px}
+  .life-card{
+    background:#fff;border-radius:var(--radius-lg);overflow:hidden;
+    box-shadow:var(--shadow-sm);
+    display:grid;grid-template-columns:1fr;
+  }
+  .life-card .ph{aspect-ratio:5/4;overflow:hidden;position:relative}
+  .life-card .ph img{width:100%;height:100%;object-fit:cover;transition:transform 1.2s var(--ease)}
+  .life-card:hover .ph img,.life-card:active .ph img{transform:scale(1.05)}
+  .life-card .body{padding:22px}
+  .life-card .body small{color:var(--green);font-weight:700;font-size:11px;letter-spacing:.2em;text-transform:uppercase}
+  .life-card .body h4{font-family:'Fraunces',serif;font-size:24px;font-weight:600;letter-spacing:-0.02em;margin:8px 0 8px;line-height:1.1}
+  .life-card .body p{color:var(--ink-soft);font-size:14px}
+
+  /* ───────── REVIEWS / SOCIAL FEED ───────── */
+  .feed{
+    display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;
+    padding:6px 22px 28px;scrollbar-width:none;
+  }
+  .feed::-webkit-scrollbar{display:none}
+  .post{
+    flex:0 0 86%;max-width:360px;background:#fff;border-radius:var(--radius);
+    overflow:hidden;border:1px solid var(--line);scroll-snap-align:center;
+    box-shadow:var(--shadow-sm);display:flex;flex-direction:column;
+  }
+  .post .head{display:flex;align-items:center;gap:10px;padding:12px 14px}
+  .post .av{width:36px;height:36px;border-radius:50%;background:var(--green);color:#fff;font-weight:700;display:grid;place-items:center;font-size:13px;font-family:'Fraunces',serif}
+  .post .head .name{font-weight:600;font-size:14px}
+  .post .head .loc{font-size:11px;color:var(--ink-soft)}
+  .post .ph{aspect-ratio:1/1;background:#000;overflow:hidden}
+  .post .ph img{width:100%;height:100%;object-fit:cover}
+  .post .actions{display:flex;gap:14px;padding:12px 14px 4px;color:var(--ink)}
+  .post .actions svg{width:22px;height:22px}
+  .post .cap{padding:4px 14px 14px;font-size:13px;color:var(--ink-soft)}
+  .post .cap b{color:var(--ink);font-weight:600}
+
+  /* ───────── EVENTS / SPECIAL MOMENTS ───────── */
+  .events{
+    background:#0c1410;color:#fff;
+  }
+  .events h2.section-title{color:#fff}
+  .events h2.section-title em{color:#FFD7A8}
+  .events .lede{color:rgba(255,255,255,0.65)}
+  .events .stack-card{height:62svh;min-height:420px;border-radius:var(--radius-lg);margin:0 14px}
+  .events .stack-card:first-of-type{margin-top:24px}
+  .events .stack-card{margin-bottom:8px;overflow:hidden}
+
+  /* ───────── HOW TO ORDER STEPS ───────── */
+  .steps{display:flex;flex-direction:column;gap:14px;margin-top:26px}
+  .step{
+    display:flex;gap:16px;align-items:flex-start;
+    padding:18px;border:1px solid var(--line);border-radius:var(--radius);
+    background:#fff;transition:transform .3s var(--ease),box-shadow .3s var(--ease);
+  }
+  .step:active{transform:scale(0.985);box-shadow:var(--shadow-sm)}
+  .step .n{
+    width:42px;height:42px;flex-shrink:0;border-radius:14px;
+    background:linear-gradient(135deg,var(--green),var(--green-2));color:#fff;
+    display:grid;place-items:center;font-family:'Fraunces',serif;font-weight:600;font-size:18px;
+    box-shadow:var(--shadow-glow);
+  }
+  .step h5{font-family:'Fraunces',serif;font-size:18px;font-weight:600;margin-bottom:4px}
+  .step p{color:var(--ink-soft);font-size:14px}
+
+  /* ───────── FINAL HERO ───────── */
+  .final{
+    position:relative;height:100svh;min-height:640px;width:100%;overflow:hidden;color:#fff;
+    display:flex;align-items:center;justify-content:center;text-align:center;
+  }
+  .final img{position:absolute;inset:0;width:100%;height:115%;object-fit:cover;will-change:transform}
+  .final::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at center,rgba(0,0,0,0.2) 0%,rgba(8,16,11,0.85) 80%)}
+  .final-inner{position:relative;z-index:2;padding:0 24px;max-width:600px}
+  .final h2{
+    font-family:'Fraunces',serif;font-size:clamp(44px,12vw,80px);font-weight:600;
+    line-height:0.96;letter-spacing:-0.03em;margin-bottom:16px;
+  }
+  .final h2 em{font-style:italic;color:#FFD7A8;font-weight:500}
+  .final p{color:rgba(255,255,255,0.78);font-size:15px;margin-bottom:28px;max-width:420px;margin-left:auto;margin-right:auto}
+
+  /* ───────── FOOTER ───────── */
+  footer{
+    background:#06170f;color:rgba(255,255,255,0.7);padding:48px 22px 120px;text-align:center;
+  }
+  footer .brand{justify-content:center;color:#fff;margin-bottom:14px}
+  footer .brand-mark{background:linear-gradient(135deg,#FFD7A8,#fff);color:var(--green)}
+  footer p{font-size:13px;margin-bottom:6px}
+  footer small{font-size:11px;opacity:.6;display:block;margin-top:14px;letter-spacing:.1em;text-transform:uppercase}
+
+  /* ───────── FLOATING WHATSAPP ───────── */
+  .wa-float{
+    position:fixed;right:18px;bottom:22px;z-index:90;
+    width:62px;height:62px;border-radius:50%;
+    background:#25D366;color:#fff;
+    display:grid;place-items:center;
+    box-shadow:0 18px 40px -10px rgba(37,211,102,0.6),0 0 0 0 rgba(37,211,102,0.5);
+    animation:wapulse 2.2s infinite;
+    transition:transform .25s var(--ease);
+  }
+  .wa-float:active{transform:scale(0.92)}
+  .wa-float svg{width:30px;height:30px}
+  .wa-label{
+    position:fixed;right:88px;bottom:36px;z-index:90;
+    background:#fff;color:var(--green);font-weight:600;font-size:13px;
+    padding:8px 12px;border-radius:99px;box-shadow:var(--shadow-md);
+    border:1px solid var(--line);
+    opacity:0;transform:translateX(8px);transition:all .4s var(--ease);
+    pointer-events:none;white-space:nowrap;
+  }
+  .wa-float:hover + .wa-label{opacity:1;transform:translateX(0)}
+
+  /* ───────── REVEAL ANIMATIONS ───────── */
+  .reveal{opacity:0;transform:translateY(28px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
+  .reveal.in{opacity:1;transform:translateY(0)}
+  .reveal-2{opacity:0;transform:scale(0.96);transition:opacity .9s var(--ease),transform .9s var(--ease)}
+  .reveal-2.in{opacity:1;transform:scale(1)}
+
+  /* ───────── KEYFRAMES ───────── */
+  @keyframes pulse{
+    0%{box-shadow:0 0 0 0 rgba(124,255,178,0.6)}
+    70%{box-shadow:0 0 0 10px rgba(124,255,178,0)}
+    100%{box-shadow:0 0 0 0 rgba(124,255,178,0)}
+  }
+  @keyframes wapulse{
+    0%{box-shadow:0 18px 40px -10px rgba(37,211,102,0.6),0 0 0 0 rgba(37,211,102,0.5)}
+    70%{box-shadow:0 18px 40px -10px rgba(37,211,102,0.6),0 0 0 18px rgba(37,211,102,0)}
+    100%{box-shadow:0 18px 40px -10px rgba(37,211,102,0.6),0 0 0 0 rgba(37,211,102,0)}
+  }
+  @keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+  @keyframes cue{0%,100%{opacity:.3}50%{opacity:1}}
+  @keyframes swipe{0%,100%{transform:translateX(0)}50%{transform:translateX(6px)}}
+
+  /* ───────── DESKTOP ENHANCEMENTS ───────── */
+  @media (min-width:780px){
+    .reels{padding:6px 48px 36px;gap:18px}
+    .reel{flex:0 0 320px}
+    .wall{grid-template-columns:repeat(3,1fr);gap:12px;padding:0 18px}
+    .wall .wide{grid-column:span 2}
+    .life-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:22px}
+    .feed{padding:6px 48px 36px}
+    .post{flex:0 0 380px}
+    section{padding:96px 0}
+    .container{padding:0 48px}
+  }
+</style>
+</head>
+<body>
+
+<!-- ───── TOP BAR ───── -->
+<header class="topbar" id="topbar">
+  <a href="#top" class="brand">
+    <span class="brand-mark">C</span>
+    Calawazobia <span style="color:var(--ink-soft);font-weight:400">· Uyo</span>
+  </a>
+  <span class="pill"><span class="live-dot"></span> Open · Baking</span>
+</header>
+
+<!-- ───── HERO ───── -->
+<section class="hero" id="top">
+  <img class="hero-img" id="heroImg"
+    src="{% static 'images/outsidebakeryshot.jpeg' %}"
+    alt="Fresh bread coming out of the oven" />
+  <div class="hero-inner">
+    <span class="hero-tag reveal">● Calawazobia Bakery — Uyo</span>
+    <h1 class="reveal">Freshly Baked.<br/><em>Always Ready.</em></h1>
+    <p class="reveal">Real ovens. Real hands. Real bread — straight from our bakery floor in Uyo to your table.</p>
+    <div class="hero-ctas reveal">
+      <a class="btn btn-wa" href="https://wa.me/2347064191176" target="_blank" rel="noopener">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.82 11.82 0 018.413 3.488 11.82 11.82 0 013.48 8.413c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 001.51 5.26l-.999 3.648 3.978-1.04zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.247-.694.247-1.289.173-1.413z"/></svg>
+        Order on WhatsApp
+      </a>
+      <a class="btn btn-ghost" href="#reels">
+        Explore
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+    </div>
+  </div>
+  <div class="scroll-cue"><span>Scroll</span><span class="line"></span></div>
+</section>
+
+<!-- ───── MARQUEE ───── -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track">
+    <span>Hot from the oven <i>✦</i> Baked daily in Uyo <i>✦</i> Bulk orders welcome <i>✦</i> Soft. Fluffy. Real. <i>✦</i> Hot from the oven <i>✦</i> Baked daily in Uyo <i>✦</i> Bulk orders welcome <i>✦</i> Soft. Fluffy. Real. <i>✦</i></span>
+    <span>Hot from the oven <i>✦</i> Baked daily in Uyo <i>✦</i> Bulk orders welcome <i>✦</i> Soft. Fluffy. Real. <i>✦</i> Hot from the oven <i>✦</i> Baked daily in Uyo <i>✦</i> Bulk orders welcome <i>✦</i> Soft. Fluffy. Real. <i>✦</i></span>
+  </div>
+</div>
+
+<!-- ───── PRODUCT REELS ───── -->
+<section id="reels" style="padding-bottom:24px">
+  <div class="container reveal">
+    <span class="eyebrow">The Reels</span>
+    <h2 class="section-title">Today’s <em>bake.</em></h2>
+    <p class="lede">Swipe through what just came out of the oven. Tap any reel to order it directly on WhatsApp.</p>
+  </div>
+  <div class="swipe-hint reveal">Swipe <span class="arrow">→</span></div>
+  <div class="reels" id="reels-track">
+    <!-- Reel template injected below by JS for cleanliness -->
+  </div>
+</section>
+
+<!-- ───── CTA STRIP 1 ───── -->
+<div class="cta-strip">
+  <span class="eyebrow" style="color:#FFD7A8;background:rgba(255,215,168,0.12)">Hot · Fresh · Now</span>
+  <h3>Hot and fresh.<br/><em>Order now.</em></h3>
+  <p>It’s still warm. Send us a message and we’ll wrap it for you.</p>
+  <a class="btn btn-wa" href="https://wa.me/2347064191176" target="_blank" rel="noopener">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.82 11.82 0 018.413 3.488 11.82 11.82 0 013.48 8.413c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 001.51 5.26l-.999 3.648 3.978-1.04zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.247-.694.247-1.289.173-1.413z"/></svg>
+    Chat us now
+  </a>
+</div>
+
+<!-- ───── FRESH FROM THE OVEN ───── -->
+<section style="padding-bottom:0">
+  <div class="container reveal">
+    <span class="eyebrow">Fresh from the oven</span>
+    <h2 class="section-title">The moment it’s <em>ready.</em></h2>
+    <p class="lede">Crackling crust, warm steam, golden tops. This is what fresh actually looks like.</p>
+  </div>
+  <div class="stack" style="margin-top:28px">
+    <div class="stack-card reveal-2">
+      <img loading="lazy" data-parallax src="{% static 'images/smoothbread.jpeg' %}" alt="Loaves on a wire rack">
+      <div class="text">
+        <span class="num">— 01 / Out of the oven</span>
+        <h3>Crackling, golden, ready.</h3>
+        <p>Pulled out at the perfect moment. Soft inside, golden outside.</p>
+      </div>
+    </div>
+    <div class="stack-card reveal-2">
+      <img loading="lazy" data-parallax src="{% static 'images/puffybread.jpeg' %}" alt="Steam rising from fresh bread">
+      <div class="text">
+        <span class="num">— 02 / Steam still rising</span>
+        <h3>Still warm to the touch.</h3>
+        <p>Catch it at its peak — the way our bakers eat it.</p>
+      </div>
+    </div>
+    <div class="stack-card reveal-2">
+      <img loading="lazy" data-parallax src="{% static 'images/normalbread.jpeg' %}" alt="Pastries cooling on tray">
+      <div class="text">
+        <span class="num">— 03 / The cooling rack</span>
+        <h3>Layered, lined, perfect.</h3>
+        <p>Trays after trays — the rhythm of the bakery floor.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ───── CTA STRIP 2 ───── -->
+<div class="cta-strip" style="background:#0c1410">
+  <span class="eyebrow" style="color:#FFD7A8;background:rgba(255,215,168,0.12)">Tap to order</span>
+  <h3>One message. <em>One delivery.</em></h3>
+  <p>Tell us what you want. We’ll handle the rest.</p>
+  <a class="btn btn-wa" href="https://wa.me/2347064191176" target="_blank" rel="noopener">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.82 11.82 0 018.413 3.488 11.82 11.82 0 013.48 8.413c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 001.51 5.26l-.999 3.648 3.978-1.04zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.247-.694.247-1.289.173-1.413z"/></svg>
+    Order on WhatsApp
+  </a>
+</div>
+
+<!-- ───── PACKAGING & DELIVERY (IMAGE WALL) ───── -->
+<section>
+  <div class="container reveal">
+    <span class="eyebrow">Packaging & delivery</span>
+    <h2 class="section-title">Wrapped, stacked,<br/><em>ready to go.</em></h2>
+    <p class="lede">Every loaf wrapped with care. Stacked clean. Ready for pickup, delivery and resale.</p>
+  </div>
+  <div class="wall reveal-2" style="margin-top:24px">
+    <div class="tile tall"><img loading="lazy" src="{% static 'images/bread.jpeg' %}" alt="Wrapped loaves stacked"><span class="badge">Wrapped fresh</span></div>
+    <div class="tile sq"><img loading="lazy" src="{% static 'images/waiter.jpeg' %}" alt=""></div>
+    <div class="tile sq"><img loading="lazy" src="{% static 'images/breadshelf.jpeg' %}" alt=""><span class="badge">Bulk-ready</span></div>
+    <div class="tile wide"><img loading="lazy" src="{% static 'images/butterbread.jpeg' %}" alt="Loaves stacked on shelf"><span class="badge">Daily restock</span></div>
+    <div class="tile sq"><img loading="lazy" src="{% static 'images/250butterbread.jpeg' %}" alt="">
+    <div class="tile sq"><img loading="lazy" src="{% static 'images/chinchin.jpeg' %}" alt=""></div>
+    <div class="tile wide"><img loading="lazy" src="{% static 'images/icecream.jpeg' %}" alt="Boxed pastries"><span class="badge">Event boxes</span></div>
+  </div>
+</section>
+
+<!-- ───── BAKERY LIFE ───── -->
+<section class="life">
+  <div class="container">
+    <div class="reveal">
+      <span class="eyebrow">Bakery life</span>
+      <h2 class="section-title">Behind every loaf,<br/><em>real hands.</em></h2>
+      <p class="lede">Our bakers are up before sunrise. Mixing, kneading, shaping, baking — every single morning.</p>
+    </div>
+    <div class="life-grid">
+      <div class="life-card reveal-2">
+        <div class="ph"><img loading="lazy" src="{% static 'images/team.jpeg' %}" alt="Baker shaping dough"></div>
+        <div class="body">
+          <small>04:30 AM</small>
+          <h4>The first batch.</h4>
+          <p>While the city sleeps, the ovens are already hot. The first dough goes in.</p>
+        </div>
+      </div>
+      <div class="life-card reveal-2">
+        <div class="ph"><img loading="lazy" src="{% static 'images/bakery.jpeg' %}" alt="Hands kneading dough"></div>
+        <div class="body">
+          <small>The hands</small>
+          <h4>Kneaded, not rushed.</h4>
+          <p>No shortcuts. No machines doing what hands should do.</p>
+        </div>
+      </div>
+      <div class="life-card reveal-2">
+        <div class="ph"><img loading="lazy" src="{% static 'images/chinchin.jpeg' %}" alt="Flour on table"></div>
+        <div class="body">
+          <small>The floor</small>
+          <h4>Flour, heat & rhythm.</h4>
+          <p>The bakery moves to its own beat — measured, calm, intentional.</p>
+        </div>
+      </div>
+      <div class="life-card reveal-2">
+        <div class="ph"><img loading="lazy" src="{% static 'images/where.jpeg' %}" alt="Loading the oven"></div>
+        <div class="body">
+          <small>Into the oven</small>
+          <h4>Where the magic happens.</h4>
+          <p>From pale dough to golden crust — the transformation never gets old.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ───── CTA STRIP 3 ───── -->
+<div class="cta-strip">
+  <span class="eyebrow" style="color:#FFD7A8;background:rgba(255,215,168,0.12)">We answer fast</span>
+  <h3>Got a question?<br/><em>Slide into the DMs.</em></h3>
+  <p>Our team is on WhatsApp right now.</p>
+  <a class="btn btn-wa" href="https://wa.me/2347064191176" target="_blank" rel="noopener">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.82 11.82 0 018.413 3.488 11.82 11.82 0 013.48 8.413c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 001.51 5.26l-.999 3.648 3.978-1.04zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.247-.694.247-1.289.173-1.413z"/></svg>
+    Chat us now
+  </a>
+</div>
+
+<!-- ───── SOCIAL FEED ───── -->
+<section style="padding-bottom:24px">
+  <div class="container reveal">
+    <span class="eyebrow">From the community</span>
+    <h2 class="section-title">Tagged us in <em>their day.</em></h2>
+    <p class="lede">Real customers. Real moments. Real bakery love from across Uyo.</p>
+  </div>
+  <div class="swipe-hint reveal">Swipe <span class="arrow">→</span></div>
+  <div class="feed" id="feed-track"></div>
+</section>
+
+<!-- ───── EVENTS / SPECIAL MOMENTS ───── -->
+<section class="events" style="padding-bottom:24px">
+  <div class="container reveal">
+    <span class="eyebrow" style="color:#FFD7A8;background:rgba(255,215,168,0.12)">Special moments</span>
+    <h2 class="section-title">Bigger orders.<br/><em>Bigger occasions.</em></h2>
+    <p class="lede">Weddings, conferences, schools, parties, resale runs — we’ve baked for all of it.</p>
+  </div>
+  <div class="stack-card reveal-2">
+    <img loading="lazy" data-parallax src="https://images.unsplash.com/photo-1464195244916-405fa0a82545?auto=format&fit=crop&w=1400&q=80" alt="Event table with bread">
+    <div class="text">
+      <span class="num">— Bulk orders</span>
+      <h3>Crates, trays, deliveries.</h3>
+      <p>Whatever the volume — we plan it, bake it, deliver it.</p>
+    </div>
+  </div>
+  <div class="stack-card reveal-2">
+    <img loading="lazy" data-parallax src="https://images.unsplash.com/photo-1559620192-032c4bc4674e?auto=format&fit=crop&w=1400&q=80" alt="Event packaging">
+    <div class="text">
+      <span class="num">— Event packaging</span>
+      <h3>Branded. Boxed. Beautiful.</h3>
+      <p>Custom packaging for events that need the little extra detail.</p>
+    </div>
+  </div>
+  <div class="stack-card reveal-2">
+    <img loading="lazy" data-parallax src="https://images.unsplash.com/photo-1517686469429-8bdb88b9f907?auto=format&fit=crop&w=1400&q=80" alt="Customer experience">
+    <div class="text">
+      <span class="num">— The handover</span>
+      <h3>Always on time.</h3>
+      <p>Because the day matters more than the order.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ───── HOW TO ORDER ───── -->
+<section>
+  <div class="container">
+    <div class="reveal">
+      <span class="eyebrow">How it works</span>
+      <h2 class="section-title">Order in <em>three taps.</em></h2>
+      <p class="lede">No app. No login. Just WhatsApp — like talking to a friend.</p>
+    </div>
+    <div class="steps">
+      <div class="step reveal"><div class="n">1</div><div><h5>Open WhatsApp</h5><p>Tap any green button on this page. It opens a chat with our bakery line.</p></div></div>
+      <div class="step reveal"><div class="n">2</div><div><h5>Tell us what you want</h5><p>Type the item, the quantity, and your area in Uyo. That’s it.</p></div></div>
+      <div class="step reveal"><div class="n">3</div><div><h5>Confirm & receive</h5><p>We confirm timing, prepare, wrap and hand it over — fresh and warm.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ───── FINAL HERO ───── -->
+<section class="final" id="final">
+  <img id="finalImg" loading="lazy" src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=1600&q=80" alt="Fresh bakery final">
+  <div class="final-inner">
+    <span class="hero-tag reveal" style="background:rgba(255,255,255,0.12);border-color:rgba(255,255,255,0.25)">● The finale</span>
+    <h2 class="reveal" style="margin-top:18px">Don’t just see it.<br/><em>Taste it.</em></h2>
+    <p class="reveal">One message away. Fresh, warm, ready — straight from our oven in Uyo.</p>
+    <div class="hero-ctas reveal" style="justify-content:center;display:flex">
+      <a class="btn btn-wa" href="https://wa.me/2347064191176" target="_blank" rel="noopener">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.82 11.82 0 018.413 3.488 11.82 11.82 0 013.48 8.413c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 001.51 5.26l-.999 3.648 3.978-1.04zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.247-.694.247-1.289.173-1.413z"/></svg>
+        Order on WhatsApp
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ───── FOOTER ───── -->
+<footer>
+  <div class="brand"><span class="brand-mark">C</span> Calawazobia Bakery</div>
+  <p>Uyo, Akwa Ibom — Nigeria</p>
+  <p>WhatsApp: +234 706 419 1176</p>
+  <small>© Calawazobia Bakery — Baked with care</small>
+</footer>
+
+<!-- ───── FLOATING WHATSAPP ───── -->
+<a class="wa-float" href="https://wa.me/2347064191176" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.82 11.82 0 018.413 3.488 11.82 11.82 0 013.48 8.413c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 001.51 5.26l-.999 3.648 3.978-1.04z"/></svg>
+</a>
+<span class="wa-label">Chat on WhatsApp</span>
+
+<script>
+  /* ───── REELS DATA (no fake names, no prices — just visual captions) ───── */
+  const reels = [
+    {img:"{% static 'images/smoothbread.jpeg' %}", cap:"Fresh loaves", sub:"Just out"},
+    {img:"{% static 'images/normalbread.jpeg' %}", cap:"Soft & warm", sub:"Daily bake"},
+    {img:"{% static 'images/puffybread.jpeg' %}", cap:"Pastry tray", sub:"Cooling"},
+    {img:"{% static 'images/butterbread.jpeg' %}", cap:"Crusty top", sub:"Golden"},
+    {img:"{% static 'images/250butterbread.jpeg' %}", cap:"Wrapped fresh", sub:"Ready to go"},
+    {img:"{% static 'images/chinchin.jpeg' %}", cap:"Pastry box", sub:"For events"},
+    {img:"{% static 'images/bakery.jpeg' %}", cap:"Stacked", sub:"Daily run"},
+    {img:"{% static 'images/detoxteashelf.jpeg' %}", cap:"Shelf goals", sub:"Restocked"},
+    {img:"{% static 'images/breadshelf.jpeg' %}", cap:"Bulk ready", sub:"Wholesale"},
+  ];
+  const reelTrack = document.getElementById('reels-track');
+  reels.forEach((r,i)=>{
+    const el = document.createElement('a');
+    el.href = "https://wa.me/2347064191176";
+    el.target="_blank";el.rel="noopener";
+    el.className = "reel";
+    el.innerHTML = `
+      <span class="index">${String(i+1).padStart(2,'0')} / ${String(reels.length).padStart(2,'0')}</span>
+      <span class="heart">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-7.5-4.6-9.5-9.1C1 8.6 3.2 5 6.5 5c2 0 3.5 1 4.5 2.5 1-1.5 2.5-2.5 4.5-2.5C18.8 5 21 8.6 19.5 11.9 17.5 16.4 12 21 12 21z"/></svg>
+      </span>
+      <img loading="lazy" src="${r.img}" alt="${r.cap}">
+      <div class="reel-meta">
+        <div class="sub">${r.sub}</div>
+        <div class="cap">${r.cap}</div>
+        <span class="reel-cta">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.82 11.82 0 018.413 3.488 11.82 11.82 0 013.48 8.413c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24z"/></svg>
+          Order on WhatsApp
+        </span>
+      </div>`;
+    reelTrack.appendChild(el);
+  });
+
+  /* ───── SOCIAL FEED ───── */
+  const posts = [
+    {name:"Imaobong A.", loc:"Uyo · Ewet Housing", img:"https://images.unsplash.com/photo-1568254183919-78a4f43a2877?w=800&q=80", cap:"<b>imaobong_a</b> Soft loaf for breakfast 😍"},
+    {name:"Eno B.", loc:"Uyo · Itam", img:"https://images.unsplash.com/photo-1620207418302-439b387441b0?w=800&q=80", cap:"<b>enob_</b> Stocked the shop, sold out by noon."},
+    {name:"David U.", loc:"Uyo · Ikot Ekpene Rd", img:"https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=800&q=80", cap:"<b>david.u</b> Pastries hit different here."},
+    {name:"Mfon E.", loc:"Uyo · Aka Rd", img:"https://images.unsplash.com/photo-1517686469429-8bdb88b9f907?w=800&q=80", cap:"<b>mfon_e</b> Reliable. Always fresh."},
+    {name:"Ubong J.", loc:"Uyo · Oron Rd", img:"https://images.unsplash.com/photo-1608198093002-ad4e005484ec?w=800&q=80", cap:"<b>ubong.j</b> Wrapped clean, delivered hot."},
+  ];
+  const feed = document.getElementById('feed-track');
+  posts.forEach(p=>{
+    const el = document.createElement('div');
+    el.className="post";
+    el.innerHTML=`
+      <div class="head">
+        <div class="av">${p.name[0]}</div>
+        <div><div class="name">${p.name}</div><div class="loc">${p.loc}</div></div>
+      </div>
+      <div class="ph"><img loading="lazy" src="${p.img}" alt=""></div>
+      <div class="actions">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-left:auto"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>
+      </div>
+      <div class="cap">${p.cap}</div>`;
+    feed.appendChild(el);
+  });
+
+  /* ───── REVEAL ON SCROLL ───── */
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);}});
+  },{threshold:0.12, rootMargin:"0px 0px -40px 0px"});
+  document.querySelectorAll('.reveal,.reveal-2').forEach(el=>io.observe(el));
+
+  /* ───── PARALLAX ───── */
+  const parallaxEls = document.querySelectorAll('[data-parallax], #heroImg, #finalImg');
+  let ticking = false;
+  function onScroll(){
+    if(!ticking){
+      requestAnimationFrame(()=>{
+        parallaxEls.forEach(el=>{
+          const r = el.getBoundingClientRect();
+          const vh = window.innerHeight;
+          if(r.bottom > 0 && r.top < vh){
+            const progress = (r.top + r.height/2 - vh/2) / vh; // -1 .. 1 ish
+            const ty = Math.max(-60, Math.min(60, -progress * 50));
+            const sc = el.id==='heroImg' ? 1.08 : 1.05;
+            el.style.transform = `translateY(${ty}px) scale(${sc})`;
+          }
+        });
+        ticking = false;
+      });
+      ticking = true;
+    }
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+
+  /* ───── TOPBAR REVEAL AFTER HERO ───── */
+  const topbar = document.getElementById('topbar');
+  const heroSection = document.querySelector('.hero');
+  const tbObs = new IntersectionObserver(([e])=>{
+    topbar.classList.toggle('show', !e.isIntersecting);
+  },{threshold:0.1});
+  tbObs.observe(heroSection);
+</script>
+</body>
+</html>
